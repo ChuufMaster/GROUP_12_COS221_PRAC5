@@ -24,6 +24,7 @@
 - [Applications](applications/applications.md)
 - [Database](Database/database.md)
 - [Documents](Documents/documents.md)
+- [DrawIO](DrawIO/drawIO.md)
 - [EER](EER/EER.md)
 - [Front_End](Front_END/frontend.md)
   - [CSS](Front_END/CSS/CSS.md)
@@ -32,8 +33,6 @@
   - [JavaScript](Front_END/JS/JS.md)
 - [Research](Research/research.md)
 - [Resources](Resources/resources.md)
-
-
 
 ## Coding practices
 
@@ -63,6 +62,7 @@
 ### Markdown
 
 1. **Markdown All in One**
+2. **Markdown Preview Enhanced**
 
 ### General
 
