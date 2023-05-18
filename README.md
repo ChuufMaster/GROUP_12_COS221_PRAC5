@@ -1,8 +1,10 @@
-# GROUP_7_COS221_PRAC5
+# General Info For The Prac
 
 ## Table of Contents
-- [GROUP\_7\_COS221\_PRAC5](#group_7_cos221_prac5)
+- [General Info For The Prac](#general-info-for-the-prac)
   - [Table of Contents](#table-of-contents)
+  - [Folder specific Readme](#folder-specific-readme)
+  - [Coding practices](#coding-practices)
   - [installation](#installation)
   - [Recommended Extensions](#recommended-extensions)
     - [GitHub](#github)
@@ -16,6 +18,37 @@
   - [Usage](#usage)
     - [Git Command Line](#git-command-line)
     - [GitHub Desktop](#github-desktop)
+
+## Folder specific Readme
+
+- [Applications](applications/applications.md)
+- [Database](Database/database.md)
+- [Documents](Documents/documents.md)
+- [EER](EER/EER.md)
+- [Front_End](Front_END/frontend.md)
+  - [CSS](Front_END/CSS/CSS.md)
+    - [CSS_General](Front_END/CSS/General/general_css.md)
+  - [HTML](Front_END/HTML/HTML.md)
+  - [JavaScript](Front_END/JS/JS.md)
+- [Research](Research/research.md)
+- [Resources](Resources/resources.md)
+
+
+
+## Coding practices
+
+1. **Videos**
+
+   - Watch and implement all the practices specified in the videos on this guys channel
+   - https://www.youtube.com/@CodeAesthetic
+
+
+2. Please make sure to keep the naming of variables as descriptive as possible
+3. Avoid more than three levels of indentation/nesting at most
+   1. Use extraction to lower the level of nesting or indentation
+   2. Use gatekeeping so instead of have a bunch of if-else statements test for all the worst case scenarios before getting to the actual code that you want to execute
+4. If a function or piece of code can be put into its own file then do it don't have one big file
+5. You naming of functions and variables should be able to be read like a comment
 
 ## installation
 
