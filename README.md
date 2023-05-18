@@ -4,13 +4,66 @@
 - [GROUP\_7\_COS221\_PRAC5](#group_7_cos221_prac5)
   - [Table of Contents](#table-of-contents)
   - [installation](#installation)
+  - [Recommended Extensions](#recommended-extensions)
+    - [GitHub](#github)
+    - [Markdown](#markdown)
+    - [General](#general)
+    - [CSS](#css)
+    - [Diagrams](#diagrams)
+    - [HTML](#html)
+    - [JavaScript](#javascript)
+    - [PHP](#php)
   - [Usage](#usage)
     - [Git Command Line](#git-command-line)
     - [GitHub Desktop](#github-desktop)
 
 ## installation
 
-There is nothing to see here yet.
+- There is nothing to see here yet.
+
+## Recommended Extensions
+
+### GitHub
+
+1. **GitLens**
+
+### Markdown
+
+1. **Markdown All in One**
+
+### General
+
+1. **Code Spell Checker**
+2. **Path Intellisense**
+3. **Prettier - Code formatter**
+
+### CSS
+
+1. **CSS Formater**
+2. **CSS Peek**
+
+### Diagrams
+
+1. **Draw.io Integration**
+
+### HTML
+
+1. **Format HTML in PHP**
+2. **HTML CSS Support**
+
+### JavaScript
+
+1. **IntelliCode**
+2. **IntelliCode API Usage Examples**
+3. **JavaScript (ES6) code snippets**
+4. **jQuery Code Snippets**
+
+### PHP
+
+1. **PHP**
+2. **PHP Extension Pack**
+3. **PHP Intelephense**
+4. **PHP Profiler**
 
 ## Usage
 
