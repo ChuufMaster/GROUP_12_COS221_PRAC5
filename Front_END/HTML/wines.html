@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -12,7 +12,7 @@
 
 <body>
 
-  <!-- Navigation -->
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg py-3 sticky-top navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="index.html">
@@ -28,7 +28,7 @@
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="wines.html">Wines</a>
+            <a class="nav-link active" href="wines.html">Wines</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="wineries.html">Wineries</a>
@@ -36,125 +36,214 @@
           <li class="nav-item">
             <a class="nav-link" href="tourist-info.html">Tourist Information</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">About</a>
-          </li>
+          </li> -->
         </ul>
         <button class="btn btn-primary ms-lg-3">Sign In</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <div class="hero vh-100 d-flex align-items-center">
-    <div class="container">
+  <!-- Main Content -->
+  <main role="main">
+    <div class="album py-5 bg-light">
+      <div class="container">
 
-      <!-- Page Header -->
-      <div class="row">
-        <div class="col-lg-7 mx-auto text-center">
-          <br><br><br><br><br><br><br>
-          <h1 class="display-4 text-white">Wines</h1>
-          <p class="text-white my-3">View our curated collection of wines and relevant information below.</p>
+        <div class="row">
+
+          <!-- Wine Card 1 -->
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wine Card 2 -->
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more wine cards as needed -->
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img class="card-img" src="images/wine1.png" alt="Wine 1">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Wine Name</h5>
+                    <p class="card-text">Description of the wine goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-primary view-details-btn"
+                          data-wine-id="1">View Details</button>
+                      </div>
+                      <small class="text-muted">Price: RXX</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- End of Row -->
+
+      </div><!-- End of Container -->
+    </div><!-- End of Album -->
+
+  </main>
+
+  <!-- Generic Wine Modal (View Details) -->
+  <div class="modal fade" id="wineModal" tabindex="-1" role="dialog" aria-labelledby="wineModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="wineModalLabel">Wine Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Wine details and additional information go here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
-
-      <!-- Wines and Wine Information -->
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">WINE NAME</div>
-            <div class="panel-body">
-              <img src="images/wine.jpg" class="img-responsive" style="width:100%" alt="Wine Image">
-              <li>Wine Type:</li>
-              <li>Grape Type:</li>
-              <li>Price:</li>
-              <li>Alcohol:</li>
-              <li>Quality:</li>
-              <li>Rating:</li>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
+
+  <!-- Link Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+  <script>
+    // Handle click event on "View Details" button
+    $('.view-details-btn').click(function () {
+      var wineId = $(this).data('wine-id');
+      var wineName = 'Wine Name ' + wineId;
+      var wineDetails = 'Wine details and additional information go here for wine ' + wineId;
+
+      // Update modal content with respective wine details
+      $('#wineModalLabel').text(wineName);
+      $('#wineModal .modal-body').html('<p>' + wineDetails + '</p>');
+
+      // Show the modal
+      $('#wineModal').modal('show');
+    });
+  </script>
+
 </body>
 
 </html>
