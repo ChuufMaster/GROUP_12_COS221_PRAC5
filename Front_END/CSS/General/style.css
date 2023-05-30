@@ -29,6 +29,10 @@ a {
     text-decoration: none;
 }
 
+a :active {
+    color: #9B0000;
+}
+
 .navbar .logo {
     width: 200px;
 }
@@ -45,6 +49,16 @@ a {
 }
 
 .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
     background-color: var(--primary);
     border-color: var(--primary);
 }
@@ -96,4 +110,15 @@ a {
 
 .wine-specs {
     list-style: none;
+}
+
+.card-img {
+    max-height: 210px;
+    max-width: 60px;
+    object-fit: cover;
+    margin: 20px;
+}
+
+.card-body {
+    margin-top: 30px;
 }
