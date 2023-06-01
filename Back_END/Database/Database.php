@@ -20,7 +20,7 @@ class Database {
         return $connection;
     }
     
-    // Execute a SQL query
+    // Execute an SQL query
     public function executeQuery($query) {
         $result = mysqli_query($this->connection, $query);
         
@@ -32,7 +32,7 @@ class Database {
         return $result;
     }
     
-    // Perform a SELECT query with JOIN operations
+    // Perform a SELECT query with JOIN operations. Tables and Columns have to be arrays even if it is just one.
     public function select($tables, $columns, $joins = array(), $conditions = array(), $order = '', $limit = '') {
         $query = "SELECT " . implode(', ', $columns);
         $query .= " FROM " . implode(', ', $tables);
@@ -61,7 +61,7 @@ class Database {
         return $this->executeQuery($query);
     }
     
-    // Perform an INSERT query
+    // Perform an INSERT query. Columns has to be an array in the format (column => value)
     public function insert($table, $data) {
         $columns = implode(', ', array_keys($data));
         $values = implode("', '", array_values($data));
@@ -73,13 +73,13 @@ class Database {
     }
     
     // Perform an UPDATE query
-    public function update($table, $data, $conditions) {
+    public function update($table, $columns, $conditions) {
         if (!is_array($conditions)) {
             $conditions = array($conditions);
         }
         
         $set = '';
-        foreach ($data as $column => $value) {
+        foreach ($columns as $column => $value) {
             $set .= "$column = '$value', ";
         }
         $set = rtrim($set, ', ');
