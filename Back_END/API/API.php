@@ -1,5 +1,5 @@
 <?php
-// Assuming you have established a database connection // Assuming the password is sent via POST request
+// Assuming you have established a database connection
 require_once 'Database.php';
 function handleSignupRequest($request_body)
 {
@@ -17,7 +17,7 @@ function handleSignupRequest($request_body)
         return "Email is already taken.";
     }
     // Generate a random salt
-    $salt = bin2hex(random_bytes(16)); // Generate a 16-byte (128-bit) salt
+    $salt = bin2hex(random_bytes(16));
 
     // Combine the salt with the password
     $salted_password = $salt . $password;
