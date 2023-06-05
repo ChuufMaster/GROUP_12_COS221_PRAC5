@@ -3,6 +3,14 @@
 class Database {
     private $connection; // Database connection
     
+    public static function instance($host, $username, $password, $database){
+        static $instance = null;
+        if($instance === null){
+            $instance = new Database($host, $username, $password, $database);
+        }
+        return $instance;
+    }
+
     // Constructor
     public function __construct($host, $username, $password, $database) {
         $this->connection = $this->connect($host, $username, $password, $database);
@@ -26,7 +34,7 @@ class Database {
         
         // Check for errors
         if (!$result) {
-            die('Query execution failed: ' . mysqli_error($this->connection));
+            return mysqli_error($this->connection);
         }
         
         return $result;
