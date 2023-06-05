@@ -1,24 +1,23 @@
 <?php
 // Assuming you have established a database connection
-require_once 'Database.php';
+require_once '../Database/Database.php';
 
 
-const status = array(
-    '400' => 'HTTP/1.1 400 Bad Request',
-    '200' => 'HTTP/1.1 200 OK',
-    '500' => 'HTTP/1.1 500 Internal Server Error'
-);
 
-const host = "wheatley.cs.up.ac.za";
-const username = "u21543152";
-const password = "YOEBF7WB6KVLTICOAB2W7YFBZN3LTDDV";
-const database = "u21543152_PA5";
 
-const db = Database::instance(host, username, password, database);
 
 class API
 {
-    private $database;
+    private $host;
+    private $username;
+    private $password;
+    private $database_name;
+    private $db;
+    public $status_codes = array(
+    '400' => 'HTTP/1.1 400 Bad Request',
+    '200' => 'HTTP/1.1 200 OK',
+    '500' => 'HTTP/1.1 500 Internal Server Error'
+    );
 
     public static function instance()
     {
@@ -32,12 +31,16 @@ class API
 
     public function __construct()
     {
-        $this->database = db;
+        $this->host = "wheatley.cs.up.ac.za";
+        $this->username = "u21543152";
+        $this->password = "YOEBF7WB6KVLTICOAB2W7YFBZN3LTDDV";
+        $this->database_name = "u21543152_PA5";
+        $this->db = Database::instance($this->host, $this->username, $this->password, $this->database_name);
     }
 
     private function return_data($header, $data, $status)
     {
-        header(status[$header]);
+        header($this->status_codes[$header]);
         header('content-Type:application/json');
         $response = array("status" => $status,
         "data" => $data
@@ -146,7 +149,7 @@ class API
     private function delete_from_table($table, $id, $column_name)
     {
 
-        $result = db->delete($table, array($column_name => $id));
+        $result = $this->db->delete($table, array($column_name => $id));
 
         if (gettype($result) === 'string')
             $this->return_data('500', $result, 'error');
@@ -160,7 +163,7 @@ class API
 
         $details = $data['details']['data'];
 
-        $result = db->update($table, $details, array($column_name => $id));
+        $result = $this->db->update($table, $details, array($column_name => $id));
 
         if (gettype($result) === 'string')
             $this->return_data('500', $result, 'error');
@@ -172,7 +175,7 @@ class API
     {
         $this->check_set($data['details']['data'], 'Details must be set');
         $details = $data['details']['data'];
-        $result = db->insert($table, $details);
+        $result = $this->db->insert($table, $details);
 
         if (gettype($result) === 'string')
             $this->return_data('500', $result, 'error');
@@ -190,7 +193,7 @@ class API
         $limit = $data['limit'];
 
 
-        $results = db->select('wines', '*', '', '', $sort_type . ' ' . $order, $limit);
+        $results = $this->db->select('wines', '*', '', '', $sort_type . ' ' . $order, $limit);
 
         $response = array();
 
@@ -242,7 +245,7 @@ class API
             return "Email and password are required.";
         }
         // Check if the user already exists
-        if (db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows > 0)
+        if ($this->db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
             return "Email is already taken.";
         }
@@ -259,7 +262,7 @@ class API
 
         $signup_info = array('email' => $email, 'password' => $hashed_password, 'first_name' => $first_name, 'last_name' => $last_name, 'salt' => $salt, 'api_key' => $api_key);
 
-        db->insert('all_users', $signup_info);
+        $this->db->insert('all_users', $signup_info);
 
         return "Signup successful!";
     }
@@ -276,7 +279,7 @@ class API
             return $return;
         }
         // Check if the user already exists
-        if (db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows === 0)
+        if ($this->db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows === 0)
         {
             $return = array(
                 'message' => "There is no account associated with that Email. Please try again."
@@ -284,7 +287,7 @@ class API
             return $return;
         }
 
-        $result = db->select(array('users'), array('*'), array(), array('email' => $email));
+        $result = $this->db->select(array('users'), array('*'), array(), array('email' => $email));
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
         $salted_password = $row['salt'] . $password;
