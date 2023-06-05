@@ -257,15 +257,21 @@ class API
         $password = $request_body['password'];
         $first_name = $request_body['first_name'];
         $last_name = $request_body['last_name'];
-
+        $send = array();
         if (empty($email) || empty($password))
         {
-            return "Email and password are required.";
+            $send = array(
+                'message' => "Email and password are required."
+            ); 
+            return $send;
         }
         // Check if the user already exists
         if ($this->db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
-            return "Email is already taken.";
+            $send = array(
+                'message' => "Email and password are required."
+            ); 
+            return $send;
         }
         // Generate a random salt
         $salt = bin2hex(random_bytes(16));
@@ -281,8 +287,11 @@ class API
         $signup_info = array('email' => $email, 'password' => $hashed_password, 'first_name' => $first_name, 'last_name' => $last_name, 'salt' => $salt, 'api_key' => $api_key);
 
         $this->db->insert('all_users', $signup_info);
-
-        return "Signup successful!";
+        $send = array(
+            'message' => "Signup successful!",
+            'api-key' => $api_key
+        ); 
+        return $send;
     }
 
     private function handleLoginRequest($request_body)
@@ -312,7 +321,7 @@ class API
         if (password_verify($salted_password, $hashed_password))
         {
             $return = array(
-                'message' => "Login Successful.",
+                'message' => "Login Successful!",
                 'api_key' => $row['api_key']
             );
             return $return;
