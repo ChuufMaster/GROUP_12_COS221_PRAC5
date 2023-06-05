@@ -1,0 +1,72 @@
+{
+  "examples": {
+    "sort_wines": {
+      "type": "sort_wines",
+      "options": {
+        "order": "ASC",
+        "sort_type": "quality"
+      }
+    },
+
+    "manage_wines": [
+      {
+        "type": "manage",
+        "options": {
+          "operation": "DELETE",
+          "table": "wines"
+        },
+        "details": {
+          "table": "wines",
+          "ID": "WINE ID"
+        }
+      },
+
+      {
+        "type": "manage",
+        "options": {
+          "operation": "UPDATE",
+          "table": "wines"
+        },
+        "details": {
+          "table": "wines",
+          "ID": "WINE ID",
+          "data": {
+            "image": "URL of wine",
+            "type": "new type",
+            "price": "new price",
+            "user_rating": 4.5,
+            "quality": 92,
+            "alcohol": 0.2,
+            "rating_percentile": "not sure if this should be here as it is derived",
+            "grape_type": "Merlot",
+            "price_percentile": "not sure if this should be here as it is derived",
+            "description": "description"
+          }
+        }
+      },
+      {
+        "type": "manage",
+        "options": {
+          "operation": "INSERT",
+          "table": "wines"
+        },
+        "details": {
+          "table": "wines",
+          "ID": "Just put whatever here it is going to be overwritten",
+          "data": {
+            "image": "URL of wine",
+            "type": "new type",
+            "price": "new price",
+            "user_rating": 4.5,
+            "quality": 92,
+            "alcohol": 0.2,
+            "rating_percentile": "not sure if this should be here as it is derived",
+            "grape_type": "Merlot",
+            "price_percentile": "not sure if this should be here as it is derived",
+            "description": "description"
+          }
+        }
+      }
+    ]
+  }
+}
