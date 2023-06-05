@@ -97,6 +97,8 @@ class Database {
             $conditions = array($conditions);
         }
     
+        $query = "DELETE FROM $table";
+
         $where_conditions = array();
         foreach ($conditions as $column => $value) {
             $escaped_value = mysqli_real_escape_string($this->connection, $value);
@@ -104,7 +106,6 @@ class Database {
         }
         $query .= " WHERE " . implode(' AND ', $where_conditions);
         
-        $query = "DELETE FROM $table WHERE $conditions";
         
         return $this->executeQuery($query);
     }
