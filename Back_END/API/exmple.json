@@ -67,6 +67,30 @@
           }
         }
       }
-    ]
+    ],
+    "get_random": {
+      "type": "get_random",
+      "table": "wines",
+      "details": ["type", "wine_id", "price"],
+      "limit": 5
+    },
+    "get_by_conditions": {
+      "type": "get_by_conditions",
+      "table": "wineries",
+      "details": "*",
+      "conditions": {
+        "winery_id": "217265"
+      },
+      "limit": 5
+    },
+    "add_images":{
+      "type": "add_images",
+      "images":[
+        {"The wines ID": "The image URL"},
+        {"The wines ID": "The image URL"},
+        {"The wines ID": "The image URL"},
+        {"The wines ID": "The image URL"}
+      ]
+    }
   }
 }
