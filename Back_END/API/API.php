@@ -2,10 +2,6 @@
 // Assuming you have established a database connection
 require_once '../Database/Database.php';
 
-
-
-
-
 class API
 {
     private $host;
@@ -50,10 +46,17 @@ class API
         exit();
     }
 
-    private function check_set($to_check, $data)
+    private function check_set($to_check, $message, $data)
     {
-        if (!isset($to_check) || empty($to_check))
-            $this->return_data('400', $data, 'error');
+        try
+        {
+            if (!isset($data[$to_check]) || empty($to_check))
+                $this->return_data('400', $message, 'error');
+        }
+        catch (error)
+        {
+            $this->return_data('500', $message, 'error');
+        }
     }
 
     public function request()
@@ -98,19 +101,31 @@ class API
             case 'suggest':
                 $this->suggest($data);
                 break;
+            case 'get_random':
+                $this->get_random($data);
+                break;
+            case 'get_by_conditions':
+                $this->get_by_conditions($data);
+                break;
+            case 'get_by_winery':
+                $this->get_by_winery_or_location($data);
+                break;
+            case 'add_images':
+                $this->add_images($data);
+                break;
             default:
-                $this->return_data('400', 'Type is expected', 'error');
+                $this->return_data('400', 'Type is expected or is incorrect', 'error');
                 break;
         }
     }
 
     public function manage($data)
     {
-        $this->check_set($data['options'], 'Options not set');
-        $this->check_set($data['options']['operation'], 'CRUD operation expected');
-        $this->check_set($data['details'], 'Details expected');
-        $this->check_set($data['details']['table'], 'Table expected');
-        $this->check_set($data['details']['ID'], 'ID expected');
+        $this->check_set('options', 'Options not set', $data);
+        $this->check_set('operation', 'CRUD operation expected', $data['options']);
+        $this->check_set('details', 'Details expected', $data);
+        $this->check_set('table', 'Table expected', $data['details']);
+        $this->check_set('ID', 'ID expected', $data['details']);
 
         $id = $data['details']['ID'];
         $table = $data['options']['table'];
@@ -159,7 +174,7 @@ class API
 
     private function update_table($table, $id, $data, $column_name)
     {
-        $this->check_set($data['details']['data'], 'Details must be set');
+        $this->check_set('data', 'Details must be set', $data['details']);
 
         $details = $data['details']['data'];
 
@@ -173,7 +188,7 @@ class API
 
     private function insert_into_table($table, $data)
     {
-        $this->check_set($data['details']['data'], 'Details must be set');
+        $this->check_set('data', 'Details must be set', $data['details']);
         $details = $data['details']['data'];
         $result = $this->db->insert($table, $details);
 
@@ -194,6 +209,9 @@ class API
 
 
         $results = $this->db->select('wines', '*', '', '', $sort_type . ' ' . $order, $limit);
+
+        if (gettype($results) === 'string')
+            $this->return_data('500', $results, 'error');
 
         $response = array();
 
@@ -299,6 +317,115 @@ class API
             );
             return $return;
         }
+    }
+
+    private function get_random($data)
+    {
+        $this->check_set('limit', 'Limit must be set', $data);
+        $this->check_set('table', 'Table must be set', $data);
+        $this->check_set('details', 'Field must be set', $data);
+
+        $limit = $data['limit'];
+        $table = $data['table'];
+        $details = $data['details'];
+
+        $results = $this->db->select($table, $details, '', '', 'RAND()', $limit);
+
+        if (gettype($results) === 'string')
+            $this->return_data('500', $results, 'error');
+
+
+        $response = array();
+
+        if ($results->num_rows <= 0)
+        {
+            $this->return_data('200', 'No results found', 'Success');
+        }
+
+        while ($row = mysqli_fetch_assoc($results))
+        {
+            $response[] = $row;
+        }
+
+        $this->return_data('200', $response, 'Success');
+    }
+
+    private function get_by_conditions($data)
+    {
+        $this->check_set('limit', 'Limit must be set', $data);
+        $this->check_set('table', 'Table must be set', $data);
+        $this->check_set('details', 'Field must be set', $data);
+        $this->check_set('conditions', 'Conditions must be set', $data);
+
+        $limit = $data['limit'];
+        $table = $data['table'];
+        $details = $data['details'];
+        $conditions = $data['conditions'];
+
+        $results = $this->db->select($table, $details, '', $conditions, 'RAND()', $limit);
+
+        if (gettype($results) === 'string')
+            $this->return_data('500', $results, 'error');
+
+
+        $response = array();
+
+        if ($results->num_rows <= 0)
+        {
+            $this->return_data('200', 'No results found', 'Success');
+        }
+
+        while ($row = mysqli_fetch_assoc($results))
+        {
+            $response[] = $row;
+        }
+
+        $this->return_data('200', $response, 'Success');
+    }
+
+    private function get_by_winery_or_location($data)
+    {
+        $this->check_set('limit', 'Limit must be set', $data);
+        $this->check_set('winery_name', 'Winery name must be set', $data);
+
+        $winery_name = $data['winery_name'];
+        $limit = $data['limit'];
+
+        $results = $this->db->select('wines AS w', 'w.*', 'INNER JOIN wineries AS win ON w.winery_id = win.winery_id', array('win.winery_name' => $winery_name), '', $limit);
+        if (gettype($results) === 'string')
+            $this->return_data('500', $results, 'error');
+
+        $response = array();
+
+        if ($results->num_rows <= 0)
+        {
+            $this->return_data('200', 'No results found', 'Success');
+        }
+
+        while ($row = mysqli_fetch_assoc($results))
+        {
+            $response[] = $row;
+        }
+
+        $this->return_data('200', $response, 'Success');
+    }
+
+    private function add_images($data)
+    {
+        $this->check_set('images', 'Images must be set', $data);
+        $images = $data['images'];
+
+        foreach ($images as $id => $image_url)
+        {
+            $table = 'wines';
+            $column_name = 'wine_id';
+
+            $result = $this->db->update($table, array('image' => $image_url), array($column_name => $id));
+
+            if (gettype($result) === 'string')
+                $this->return_data('500', $result, 'error');
+            }
+            $this->return_data('200', 'Images successfully added', 'success');
     }
 }
 
