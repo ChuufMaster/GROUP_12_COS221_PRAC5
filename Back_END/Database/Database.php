@@ -49,7 +49,7 @@ class Database
     }
 
     // Perform a SELECT query with JOIN operations. Tables and Columns have to be arrays even if it is just one.
-    public function select($tables, $columns, $joins = array(), $conditions = array(), $order = '', $limit = '', $or_and = "AND", $gt_lt = '=', $fuzzy = false)
+    public function select($tables, $columns = '*', $joins = '', $conditions = array(), $order = '', $limit = '', $or_and = "AND", $gt_lt = '=', $fuzzy = false)
     {
         if (!is_array($columns))
             $columns = array($columns);
@@ -57,6 +57,7 @@ class Database
             $tables = array($tables);
         if (!is_array($joins))
             $joins = array($joins);
+        
         $query = "SELECT " . implode(', ', $columns);
         $query .= " FROM " . implode(', ', $tables);
 
