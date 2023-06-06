@@ -30,7 +30,7 @@ class API
         $this->host = "wheatley.cs.up.ac.za";
         $this->username = "u21543152";
         $this->password = "YOEBF7WB6KVLTICOAB2W7YFBZN3LTDDV";
-        $this->database_name = "u21543152_PA5";
+        $this->database_name = "u21543152_PA5(2)";
         $this->db = Database::instance($this->host, $this->username, $this->password, $this->database_name);
     }
 
