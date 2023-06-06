@@ -424,9 +424,15 @@ class API
 
         $results = 'If you are seeing this message then there is a problem with fuzzy or gt_lt';
 
+        $joins = '';
+
+        if($this->check_set_optional('join', $data)){
+            $joins = $data['joins'];
+        }
+
         if ($this->check_set_optional('fuzzy', $data))
         {
-            $results = $this->db->select_fuzzy($table, $details, '', $conditions, $options, $limit);
+            $results = $this->db->select_fuzzy($table, $details, $joins, $conditions, $options, $limit);
         }
         else if ($this->check_set_optional('gt_lt', $data))
         {
@@ -434,11 +440,11 @@ class API
             //echo $gt_lt;
             if($gt_lt !== '>' && $gt_lt !== '<')
                 $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
-            $results = $this->db->select_gt_lt($table, $details, '', $conditions, $options, $limit, $gt_lt);
+            $results = $this->db->select_gt_lt($table, $details,$joins, $conditions, $options, $limit, $gt_lt);
         }
         else
         {
-            $results = $this->db->select($table, $details, '', $conditions, $options, $limit);
+            $results = $this->db->select($table, $details, $joins, $conditions, $options, $limit);
         }
 
 
