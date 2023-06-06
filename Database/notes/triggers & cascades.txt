@@ -7,3 +7,4 @@ Triggers
 - set api_key: SET NEW.api_key = REPLACE(MD5(UUID()), "-", "");
 - increment num_reviews for user on insert, update and delete to reviews
 - price_percentile and rating_percentile calculated using "Percentiles can be calculated using the formula n = (P/100) x N, where P = percentile, N = number of values in a data set (sorted from smallest to largest), and n = ordinal rank of a given value."
+- user_rating calculated from average in reviews
