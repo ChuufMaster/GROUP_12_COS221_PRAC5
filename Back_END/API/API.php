@@ -399,7 +399,7 @@ class API
         $limit = $data['limit'];
         $table = $data['table'];
         $details = $data['details'];
-        $conditions = $data['conditions'];
+        $conditions = $data['conditions'] === '*' ? '' : $data['conditions'];
         $options = $data['options'];
 
         if ($options !== '*')
@@ -425,7 +425,8 @@ class API
 
         $joins = '';
 
-        if($this->check_set_optional('join', $data)){
+        if ($this->check_set_optional('join', $data))
+        {
             $joins = $data['joins'];
         }
 
@@ -437,9 +438,9 @@ class API
         {
             $gt_lt = $data['gt_lt'];
             //echo $gt_lt;
-            if($gt_lt !== '>' && $gt_lt !== '<')
+            if ($gt_lt !== '>' && $gt_lt !== '<')
                 $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
-            $results = $this->db->select_gt_lt($table, $details,$joins, $conditions, $options, $limit, $gt_lt);
+            $results = $this->db->select_gt_lt($table, $details, $joins, $conditions, $options, $limit, $gt_lt);
         }
         else
         {
