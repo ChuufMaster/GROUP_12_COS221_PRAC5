@@ -132,3 +132,7 @@ a :active {
 .table-modal td {
     padding-right: 30px;
 }
+
+.winery-images {
+    height: 250px;
+}
