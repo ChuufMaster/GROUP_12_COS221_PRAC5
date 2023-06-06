@@ -124,12 +124,14 @@ class Database
         $wheres = array();
 
         foreach($conditions as $where => $value){
+            $value = mysqli_real_escape_string($this->connection, $value);
             array_push($wheres, "$where = '$value'");
         }
 
         $set = '';
         foreach ($columns as $column => $value)
-        {
+        {  
+            $value = mysqli_real_escape_string($this->connection, $value);
             $set .= "$column = '$value', ";
         }
         $set = rtrim($set, ', ');
