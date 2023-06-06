@@ -69,7 +69,7 @@ a :active {
 }
 
 .hero {
-    background-image: url(../images/cover.jpg);
+    background-image: url(../../images/cover.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -121,4 +121,9 @@ a :active {
 
 .card-body {
     margin-top: 30px;
+}
+
+.table-modal th,
+.table-modal td {
+    padding-right: 30px;
 }
