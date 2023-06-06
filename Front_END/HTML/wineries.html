@@ -49,6 +49,18 @@
   <main role="main">
     <div class="album py-5 bg-light">
       <div class="container">
+
+        <div class="text-right mb-3 custom-dropdown" style="display:none" id="boi">
+          <h5 class="d-inline-block mr-2" style="padding-right: 10px;">Sort By:</h5>
+          <select class="form-control d-inline-block" id="sortCriteriaDropdown">
+            <option value="quality">Quality</option>
+            <option value="price">Price</option>
+            <option value="wineColour">Wine Colour</option>
+            <option value="grapeType">Grape Type</option>
+          </select>
+          <button class="btn btn-primary ml-2 custom-button" id="sortButton">Sort</button>
+        </div>
+
         <div class="row">
 
           <!-- Winery Card 1 -->
@@ -180,8 +192,7 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../JS/wines.js"></script>
-    <script src="../JS/wineries.js"></script>
+    <script src="../JS/wineries.js" type="module"></script>
   
 </body>
 

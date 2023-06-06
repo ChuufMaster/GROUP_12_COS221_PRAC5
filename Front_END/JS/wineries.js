@@ -1,4 +1,4 @@
-
+  // import { fetchFromWinery } from "../JS/wines.js";
   // Function to delete all existing winery cards
   function deleteWineryCards() {
     const wineryContainer = document.querySelector('.row');
@@ -41,7 +41,11 @@
 
     // Add event listener to the button
     btn.addEventListener('click', () => {
-        fetchFromWinery(winery.winery_id);
+      // var boi = document.getElementByID('boi');
+      // boi.style.display = '';
+      // fetchFromWinery(winery.winery_id);
+      localStorage.setItem('winery_id', winery.winery_id)
+      window.location.href = '../HTML/wines.html';
     });
 
     // Append elements to build the card

@@ -60,69 +60,89 @@
     }
   
   // Fetch data from the API
-  function fetchData() {
+  function fetchData(details) {
     var xhr = new XMLHttpRequest();
     var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    const request_body = {
+    var request_body = {
       "type": "get_by_conditions",
       "table": "wines",
       "limit": 30,
       "details": "*",
-      // "conditions": {
-      //   "image": "IS NOT NULL"
-      // },
       "conditions": "*",
       "options": "*"
     };
+    if(details != '')
+    {
+      request_body = {
+        "type": "get_by_conditions",
+        "table": "wines",
+        "limit": 30,
+        "details": "*",
+        "conditions": "*",
+        "options": {
+          "order": "ASC",
+          "sort_type": details
+        }
+      };
+    }
+    if(localStorage.getItem('winery_id') != null)
+    {
+      request_body.conditions = {
+        "winery_id" : localStorage.getItem('winery_id')
+      };
+    }
+    localStorage.removeItem('winery_id');
+    var json_request_body = JSON.stringify(request_body);
+    console.log(JSON.toString(request_body,null,true));
+    xhr.send(json_request_body);
+    xhr.onload = function() {
+      console.log(JSON.toString(xhr.responseText));
+      var data = JSON.parse(xhr.responseText).data;
+  
+      deleteWineCards();
+      data.forEach(wine => {
+        if(wine.image != null)
+        {
+          createWineCard(wine);
+        }
+      });
+    }
+  }
+  
+  // export function fetchFromWinery(winery_id) {
     
-    var json_request_body = JSON.stringify(request_body);
-    xhr.send(json_request_body);
-    xhr.onload = function() {
-      var data = JSON.parse(xhr.responseText).data;
-  
-      deleteWineCards();
-      data.forEach(wine => {
-        if(wine.image != null)
-        {
-          createWineCard(wine);
-        }
-      });
-    }
-  }
-  
-  function fetchFromWinery(winery_id) {
-    var xhr = new XMLHttpRequest();
-    var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    const request_body = {
-      "type": "get_by_conditions",
-      "table": "wines",
-      "limit": 30,
-      "details": "*",
-      "conditions": {
-        // "image": "IS NOT NULL",
-        "winery_id": winery_id
-      },
-      "options": "*"
-    };
+  //   var xhr = new XMLHttpRequest();
+  //   var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
+  //   xhr.open("POST", url, true);
+  //   xhr.setRequestHeader("Content-Type", "application/json");
+  //   const request_body = {
+  //     "type": "get_by_conditions",
+  //     "table": "wines",
+  //     "limit": 30,
+  //     "details": "*",
+  //     "conditions": {
+  //       // "image": "IS NOT NULL",
+  //       "winery_id": winery_id
+  //     },
+  //     "options": "*"
+  //   };
 
-    var json_request_body = JSON.stringify(request_body);
-    xhr.send(json_request_body);
-    xhr.onload = function() {
-      var data = JSON.parse(xhr.responseText).data;
+  //   var json_request_body = JSON.stringify(request_body);
+  //   xhr.send(json_request_body);
+  //   xhr.onload = function() {
+  //     var data = JSON.parse(xhr.responseText).data;
   
-      deleteWineCards();
-      data.forEach(wine => {
-        if(wine.image != null)
-        {
-          createWineCard(wine);
-        }
-      });
-    }
-  }
+  //     deleteWineCards();
+  //     data.forEach(wine => {
+  //       if(wine.image != null)
+  //       {
+  //         createWineCard(wine);
+  //       }
+  //     });
+  //   }
+  // }
 
   function openWineModal(wine) {
     const wineName = wine.designation + " " + wine.type;
@@ -155,8 +175,21 @@
         $('#wineModal').modal('hide');
     });
   }
+
+  // Retrieve the sort criteria dropdown and the sort button
+  const sortCriteriaDropdown = document.getElementById('sortCriteriaDropdown');
+  const sortButton = document.getElementById('sortButton');
+
+  // Add event listener to the sort button
+  sortButton.addEventListener('click', function() {
+    // Get the selected value from the sort criteria dropdown
+    const selectedSortCriteria = sortCriteriaDropdown.value;
+    // Call the fetchData function with the selected sort criteria
+    fetchData(selectedSortCriteria);
+  });
+
   // Call the fetchData function to load data and create wine cards initially
-  fetchData();
+  fetchData('');
 
 
 
