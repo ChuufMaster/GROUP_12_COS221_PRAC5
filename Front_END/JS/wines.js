@@ -116,12 +116,12 @@
   
     // Replace the following lines with the code to fetch the wine data from the database
     const wineType = wine.type;
-    const wineUserRating = (Math.random() * 6).toFixed(1);
+    const wineUserRating = wine.user_rating;
     const wineQuality = wine.quality;
     const wineAlcoholPercentage = wine.alcohol;
     const wineGrapeType = wine.grape_type;
-    const wineRatingPercentile = (Math.random() * 100).toFixed(0);
-    const winePricePercentile = (Math.random() * 100).toFixed(0);
+    const wineRatingPercentile = wine.rating_percentile;
+    const winePricePercentile = wine.price_percentile;
   
     $('#wineModalLabel').text(wineName);
     $('#wineModal .modal-body p').text(wineDetails);
@@ -131,7 +131,9 @@
     $('#wineQuality').text(wineQuality);
     $('#alcoholPercentage').text(wineAlcoholPercentage);
     $('#wineGrapeType').text(wineGrapeType);
-  
+    $('#user_rating').text(wineUserRating);
+    $('#rating_percentile').text(wineRatingPercentile);
+    $('#price_percentile').text(winePricePercentile);
     $('#wineModal').modal('show');
 
     $('#wineModal .close, #wineModal .modal-footer .btn-secondary').click(function () {
