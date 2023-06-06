@@ -200,8 +200,10 @@ class API
 
     public function sort_wines($data)
     {
-        if (!isset($data['options']['order']) || !isset($data['options']['sort_type']) || !isset($data['limit']))
-            $this->return_data('400', 'Sort details expected', 'error');
+        $this->check_set('limit', 'Limit must be set', $data);
+        $this->check_set('options', 'Options must be set', $data);
+        $this->check_set('sort_type', 'Sort type must be set', $data['options']);
+        $this->check_set('order', 'Order must be set', $data['options']);
 
         $sort_type = $data['options']['sort_type'];
         $order = $data['options']['order'];
@@ -262,7 +264,7 @@ class API
         {
             $send = array(
                 'message' => "Email and password are required."
-            ); 
+            );
             return $send;
         }
         // Check if the user already exists
@@ -270,7 +272,7 @@ class API
         {
             $send = array(
                 'message' => "Email and password are required."
-            ); 
+            );
             return $send;
         }
         // Generate a random salt
@@ -290,7 +292,7 @@ class API
         $send = array(
             'message' => "Signup successful!",
             'api-key' => $api_key
-        ); 
+        );
         return $send;
     }
 
@@ -433,8 +435,8 @@ class API
 
             if (gettype($result) === 'string')
                 $this->return_data('500', $result, 'error');
-            }
-            $this->return_data('200', 'Images successfully added', 'success');
+        }
+        $this->return_data('200', 'Images successfully added', 'success');
     }
 }
 
