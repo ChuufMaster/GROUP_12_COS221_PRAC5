@@ -5,14 +5,14 @@ $(document).ready(function () {
     event.preventDefault();
 
     // Retrieve form data
-    var imageUrl = $("#imageUrl").val();
-    var wineType = $("#wineType").val();
-    var price = $("#price").val();
-    var userRating = $("#userRating").val();
-    var quality = $("#quality").val();
-    var alcohol = $("#alcohol").val();
-    var grapeType = $("#grapeType").val();
-    var description = $("#description").val();
+    var imageUrl = $("#imageUrli").val();
+    var wineType = $("#wineTypei").val();
+    var price = $("#pricei").val();
+    var userRating = $("#userRatingi").val();
+    var quality = $("#qualityi").val();
+    var alcohol = $("#alcoholi").val();
+    var grapeType = $("#grapeTypei").val();
+    var description = $("#descriptioni").val();
 
     // Prepare request payload
     var payload = {
