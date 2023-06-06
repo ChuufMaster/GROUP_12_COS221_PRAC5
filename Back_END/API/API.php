@@ -64,7 +64,7 @@ class API
 
         if (!isset($data[$to_check]) || empty($to_check))
             return false;
-
+        return $data[$to_check];
     }
 
     public function request()
@@ -430,7 +430,8 @@ class API
         else if ($this->check_set_optional('gt_lt', $data))
         {
             $gt_lt = $data['gt_lt'];
-            if($gt_lt !== '>' || $gt_lt !== '<')
+            //echo $gt_lt;
+            if($gt_lt !== '>' && $gt_lt !== '<')
                 $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
             $results = $this->db->select_gt_lt($table, $details, '', $conditions, $options, $limit, $gt_lt);
         }

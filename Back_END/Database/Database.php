@@ -113,10 +113,11 @@ class Database
             {
                 $escaped_value = mysqli_real_escape_string($this->connection, $value);
                 $whereConditions[] = "$column LIKE '%$escaped_value%'";
+                
             }
             $query .= " WHERE " . implode(' AND ', $whereConditions);
         }
-
+        //echo $query;
         if (!empty($order))
         {
             $query .= " ORDER BY " . $order;
