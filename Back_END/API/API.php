@@ -59,6 +59,14 @@ class API
         }
     }
 
+    private function check_set_optional($to_check, $data)
+    {
+
+        if (!isset($data[$to_check]) || empty($to_check))
+            false;
+
+    }
+
     public function request()
     {
         $json = file_get_contents('php://input');
@@ -237,7 +245,26 @@ class API
 
     private function suggest($data)
     {
-        return;
+        $this->check_set('limit', 'Limit must be set', $data);
+        $limit = $data['limit'];
+        $results = $this->db->select('wineries AS w', 'w.*', 'INNER JOIN wines AS wi ON w.winery_id = wi.winery_id', '', 'wi.quality DESC', $limit);
+
+        if (gettype($results) === 'string')
+            $this->return_data('500', $results, 'error');
+
+        if ($results->num_rows <= 0)
+        {
+            $this->return_data('200', 'No results found', 'Success');
+        }
+
+        $response = array();
+
+        while ($row = mysqli_fetch_assoc($results))
+        {
+            $response[] = $row;
+        }
+
+        $this->return_data('200', $response, 'Success');
     }
 
     private function login_signup($data)
@@ -264,16 +291,16 @@ class API
         {
             $send = array(
                 'message' => "Email and password are required."
-            ); 
-            $this->return_data('400',$send,"error");
+            );
+            $this->return_data('400', $send, "error");
         }
         // Check if the user already exists
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
             $send = array(
                 'message' => "Email and password are required."
-            ); 
-            $this->return_data('400',$send,"error");
+            );
+            $this->return_data('400', $send, "error");
         }
         // Generate a random salt
         $salt = bin2hex(random_bytes(16));
@@ -292,8 +319,8 @@ class API
         $send = array(
             'message' => "Signup successful!",
             'api-key' => $api_key
-        ); 
-        $this->return_data('200',$send,"success");
+        );
+        $this->return_data('200', $send, "success");
     }
 
     private function handleLoginRequest($request_body)
@@ -305,7 +332,7 @@ class API
             $return = array(
                 'message' => "Email and password are required."
             );
-            $this->return_data('400',$return,"error");
+            $this->return_data('400', $return, "error");
         }
         // Check if the user already exists
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows === 0)
@@ -313,7 +340,7 @@ class API
             $return = array(
                 'message' => "There is no account associated with that Email. Please try again."
             );
-            $this->return_data('400',$return,"error");
+            $this->return_data('400', $return, "error");
         }
 
         $result = $this->db->select(array('all_users'), array('*'), array(), array('email' => $email));
@@ -326,7 +353,7 @@ class API
                 'message' => "Login Successful!",
                 'api_key' => $row['api_key']
             );
-            $this->return_data('200',$return,"Success");
+            $this->return_data('200', $return, "Success");
         }
     }
 
@@ -367,13 +394,51 @@ class API
         $this->check_set('table', 'Table must be set', $data);
         $this->check_set('details', 'Field must be set', $data);
         $this->check_set('conditions', 'Conditions must be set', $data);
+        $this->check_set('options', 'Options must be set', $data);
 
         $limit = $data['limit'];
         $table = $data['table'];
         $details = $data['details'];
         $conditions = $data['conditions'];
+        $options = $data['options'];
 
-        $results = $this->db->select($table, $details, '', $conditions, 'RAND()', $limit);
+        if ($options !== '*')
+        {
+            $this->check_set('order', 'Order Must be set', $data['options']);
+            $this->check_set('sort_type', 'Sort Type Must be set', $data['options']);
+
+            $order = $data['options']['order'];
+            $sort_type = $data['options']['sort_type'];
+
+            $options = $sort_type . ' ' . $order;
+        }
+        else if ($options === '*')
+        {
+            $options = 'RAND()';
+        }
+        else
+        {
+            $this->return_data('400', 'Options must either be "*" or a json object with {order: "ASC or DESC", sort_type: "column name to sort by"}', 'error');
+        }
+
+        $results = 'If you are seeing this message then there is a problem with fuzzy or gt_lt';
+
+        if ($this->check_set_optional('fuzzy', $data))
+        {
+            $results = $this->db->select_fuzzy($table, $details, '', $conditions, $options, $limit);
+        }
+        else if ($this->check_set_optional('gt_lt', $data))
+        {
+            $gt_lt = $data['gt_lt'];
+            if($gt_lt !== '>' || $gt_lt !== '<')
+                $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
+            $results = $this->db->select_gt_lt($table, $details, '', $conditions, $options, $limit, $gt_lt);
+        }
+        else
+        {
+            $results = $this->db->select($table, $details, '', $conditions, $options, $limit);
+        }
+
 
         if (gettype($results) === 'string')
             $this->return_data('500', $results, 'error');

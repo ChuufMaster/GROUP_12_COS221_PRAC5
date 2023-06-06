@@ -75,14 +75,46 @@
       "details": ["type", "wine_id", "price"],
       "limit": 5
     },
-    "get_by_conditions": {
+    "get_by_conditions unordered": {
       "type": "get_by_conditions",
       "table": "wineries",
       "details": "*",
       "conditions": {
         "winery_id": "217265"
       },
-      "limit": 5
+      "limit": 5,
+      "options": "*"
+    },
+
+    "get_by_conditions ordered": {
+      "fuzzy example":{
+        "type": "get_by_conditions",
+        "table": "wines",
+        "details": "*",
+        "conditions": {
+          "price": 15
+        },
+        "limit": 5,
+        "options": {
+          "order": "DESC",
+          "sort_type": "price"
+        },
+        "fuzzy": true
+      },
+      "greater than example":{
+        "type": "get_by_conditions",
+        "table": "wines",
+        "details": "*",
+        "conditions": {
+          "price": 15
+        },
+        "limit": 5,
+        "options": {
+          "order": "DESC",
+          "sort_type": "price"
+        },
+        "gt_lt": "<" 
+      }
     },
     "add_images": {
       "type": "add_images",
