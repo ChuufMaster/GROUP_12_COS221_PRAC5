@@ -1,9 +1,7 @@
 // Retrieve the form data from the login form
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
-const auth_username = 'u21543152';
-const auth_password = 'Just2matt';
-const authString = `${auth_username}:${auth_password}`;
+
 
 // Check that all fields are filled out
 if (email === '' || password === '') {
@@ -19,9 +17,8 @@ if (!emailRegex.test(email)) {
 }
 
 var xhr = new XMLHttpRequest();
-var url = "https://wheatley.cs.up.ac.za/u21543152/COS221/api.php";
+var url = "localhost/GROUP_7_COS221_PRAC5/Back_END/API/API.php";
 xhr.open("POST", url, true);
-xhr.setRequestHeader('Authorization', 'Basic ' + btoa(authString));
 xhr.setRequestHeader("Content-Type", "application/json");
 const request_body = {
   "type": "login_signup",
