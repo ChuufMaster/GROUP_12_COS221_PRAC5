@@ -83,13 +83,13 @@
       },
       "limit": 5
     },
-    "add_images":{
+    "add_images": {
       "type": "add_images",
-      "images":[
-        {"The wines ID": "The image URL"},
-        {"The wines ID": "The image URL"},
-        {"The wines ID": "The image URL"},
-        {"The wines ID": "The image URL"}
+      "images": [
+        { "The wines ID": "The image URL" },
+        { "The wines ID": "The image URL" },
+        { "The wines ID": "The image URL" },
+        { "The wines ID": "The image URL" }
       ]
     }
   }
