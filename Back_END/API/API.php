@@ -298,12 +298,12 @@ class API
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
             $send = array(
-                'message' => "Email and password are required."
-            );
-            $this->return_data('400', $send, "error");
+                'message' => "An account already exists with that Email."
+            ); 
+            $this->return_data('400',$send,"error");
         }
         // Generate a random salt
-        $salt = bin2hex(random_bytes(16));
+        $salt = bin2hex(random_bytes(6));
 
         // Combine the salt with the password
         $salted_password = $salt . $password;
@@ -311,7 +311,7 @@ class API
         // Hash the salted password
         $hashed_password = password_hash($salted_password, PASSWORD_DEFAULT);
 
-        $api_key = bin2hex(random_bytes(32));
+        $api_key = bin2hex(random_bytes(16));
 
         $signup_info = array('email' => $email, 'password' => $hashed_password, 'first_name' => $first_name, 'last_name' => $last_name, 'salt' => $salt, 'api_key' => $api_key);
 
@@ -325,6 +325,7 @@ class API
 
     private function handleLoginRequest($request_body)
     {
+        
         $email = $request_body['email'];
         $password = $request_body['password'];
         if (empty($email) || empty($password))
@@ -332,7 +333,8 @@ class API
             $return = array(
                 'message' => "Email and password are required."
             );
-            $this->return_data('400', $return, "error");
+            
+            $this->return_data('400',$return,"error");
         }
         // Check if the user already exists
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows === 0)
@@ -342,7 +344,6 @@ class API
             );
             $this->return_data('400', $return, "error");
         }
-
         $result = $this->db->select(array('all_users'), array('*'), array(), array('email' => $email));
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
@@ -399,7 +400,7 @@ class API
         $limit = $data['limit'];
         $table = $data['table'];
         $details = $data['details'];
-        $conditions = $data['conditions'];
+        $conditions = $data['conditions'] === '*' ? '' : $data['conditions'];
         $options = $data['options'];
 
         if ($options !== '*')
@@ -423,21 +424,28 @@ class API
 
         $results = 'If you are seeing this message then there is a problem with fuzzy or gt_lt';
 
+        $joins = '';
+
+        if ($this->check_set_optional('join', $data))
+        {
+            $joins = $data['joins'];
+        }
+
         if ($this->check_set_optional('fuzzy', $data))
         {
-            $results = $this->db->select_fuzzy($table, $details, '', $conditions, $options, $limit);
+            $results = $this->db->select_fuzzy($table, $details, $joins, $conditions, $options, $limit);
         }
         else if ($this->check_set_optional('gt_lt', $data))
         {
             $gt_lt = $data['gt_lt'];
             //echo $gt_lt;
-            if($gt_lt !== '>' && $gt_lt !== '<')
+            if ($gt_lt !== '>' && $gt_lt !== '<')
                 $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
-            $results = $this->db->select_gt_lt($table, $details, '', $conditions, $options, $limit, $gt_lt);
+            $results = $this->db->select_gt_lt($table, $details, $joins, $conditions, $options, $limit, $gt_lt);
         }
         else
         {
-            $results = $this->db->select($table, $details, '', $conditions, $options, $limit);
+            $results = $this->db->select($table, $details, $joins, $conditions, $options, $limit);
         }
 
 
