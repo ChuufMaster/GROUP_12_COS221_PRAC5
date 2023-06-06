@@ -8,6 +8,23 @@
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="stylesheet" href="../CSS/General/style.css">
   <title>Wines | Data Distilleries</title>
+
+  <style>
+    .custom-dropdown {
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-dropdown .custom-button {
+      height: 100%;
+    }
+
+    #sortCriteriaDropdown {
+      width: 200px;
+      margin-right: 10px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -47,8 +64,19 @@
     <div class="album py-5 bg-light">
       <div class="container">
 
-        <div class="row">
+        <!-- Sorting Options -->
+        <div class="text-right mb-3 custom-dropdown">
+          <h5 class="d-inline-block mr-2" style="padding-right: 10px;">Sort By:</h5>
+          <select class="form-control d-inline-block" id="sortCriteriaDropdown">
+            <option value="quality">Quality</option>
+            <option value="price">Price</option>
+            <option value="wineColour">Wine Colour</option>
+            <option value="grapeType">Grape Type</option>
+          </select>
+          <button class="btn btn-primary ml-2 custom-button" id="sortButton">Sort</button>
+        </div>
 
+        <div class="row">
           <!-- Wine Card 1 -->
           <div class="col-md-4">
             <div class="card mb-4 box-shadow">
@@ -256,7 +284,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="../JS/wineries.js"></script>
   <script src="../JS/wines.js"></script>
-  
+
 </body>
 
 </html>
