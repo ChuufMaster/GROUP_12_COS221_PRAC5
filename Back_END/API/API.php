@@ -87,9 +87,7 @@ class API
 
     public function getType($data)
     {
-        if (!isset($data['type']))
-            $this->return_data('400', 'Type is expected', 'error');
-
+        $this->check_set('type', 'Type must be set', $data);
         $type = $data['type'];
 
         switch ($type)
@@ -120,6 +118,9 @@ class API
                 break;
             case 'add_images':
                 $this->add_images($data);
+                break;
+            case 'user_review':
+                $this->user_review($data);
                 break;
             default:
                 $this->return_data('400', 'Type is expected or is incorrect', 'error');
@@ -240,14 +241,45 @@ class API
 
     private function CRUD($data)
     {
-        return;
+        $this->manage($data);
     }
 
     private function suggest($data)
     {
         $this->check_set('limit', 'Limit must be set', $data);
+        $this->check_set('location', 'Location must be set', $data);
         $limit = $data['limit'];
-        $results = $this->db->select('wineries AS w', 'w.*', 'INNER JOIN wines AS wi ON w.winery_id = wi.winery_id', '', 'wi.quality DESC', $limit);
+        $location = $data['location'];
+        $country = '';
+        $province = '';
+        $region = '';
+
+        if ($this->check_set_optional('country', $data['location']))
+        {
+            $country = $data['location']['country'];
+            gettype($country) !== 'string' ? $this->return_data('400', 'Country must be a string', 'error') : 'all good';
+        }
+        else if ($this->check_set_optional('province', $data['location']))
+        {
+            $province = $data['location']['province'];
+            gettype($province) !== 'string' ? $this->return_data('400', 'Province must be a string', 'error') : 'all good';
+        }
+        else if ($this->check_set_optional('region', $data['location']))
+        {
+            $region = $data['location']['region'];
+            gettype($region) !== 'string' ? $this->return_data('400', 'Region must be a string', 'error') : 'all good';
+        }
+        else
+        {
+            $this->return_data('500', 'A County, Province or Region must be set', 'error');
+        }
+
+        $joins = array(
+            'INNER JOIN wines AS wi ON w.winery_id = wi.winery_id',
+            'INNER JOIN locations AS l ON w.location_id  = l.location_id'
+        );
+
+        $results = $this->db->select('wineries AS w', 'w.*, l.*', $joins, $location, 'wi.quality DESC', $limit, fuzzy: true);
 
         if (gettype($results) === 'string')
             $this->return_data('500', $results, 'error');
@@ -299,8 +331,8 @@ class API
         {
             $send = array(
                 'message' => "An account already exists with that Email."
-            ); 
-            $this->return_data('400',$send,"error");
+            );
+            $this->return_data('400', $send, "error");
         }
         // Generate a random salt
         $salt = bin2hex(random_bytes(6));
@@ -325,7 +357,7 @@ class API
 
     private function handleLoginRequest($request_body)
     {
-        
+
         $email = $request_body['email'];
         $password = $request_body['password'];
         if (empty($email) || empty($password))
@@ -333,8 +365,8 @@ class API
             $return = array(
                 'message' => "Email and password are required."
             );
-            
-            $this->return_data('400',$return,"error");
+
+            $this->return_data('400', $return, "error");
         }
         // Check if the user already exists
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows === 0)
@@ -437,23 +469,13 @@ class API
             $joins = $data['joins'];
         }
 
-        if ($this->check_set_optional('fuzzy', $data))
-        {
-            $results = $this->db->select_fuzzy($table, $details, $joins, $conditions, $options, $limit);
-        }
-        else if ($this->check_set_optional('gt_lt', $data))
-        {
-            $gt_lt = $data['gt_lt'];
-            //echo $gt_lt;
-            if ($gt_lt !== '>' && $gt_lt !== '<')
-                $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
-            $results = $this->db->select_gt_lt($table, $details, $joins, $conditions, $options, $limit, $gt_lt);
-        }
-        else
-        {
-            $results = $this->db->select($table, $details, $joins, $conditions, $options, $limit);
-        }
+        $fuzzy = $this->check_set_optional('fuzzy', $data);
+        $gt_lt = $this->check_set_optional('fuzzy', $data);
 
+        if (gettype($gt_lt) === 'string' && $gt_lt !== '>' && $gt_lt !== '<')
+            $this->return_data('400', 'gt_lt must either be ">" or "<"', 'error');
+
+        $results = $this->db->select($table, $details, $joins, $conditions, $options, $limit, fuzzy: $fuzzy, gt_lt: $gt_lt ? $gt_lt : '');
 
         if (gettype($results) === 'string')
             $this->return_data('500', $results, 'error');
@@ -482,7 +504,7 @@ class API
         $winery_name = $data['winery_name'];
         $limit = $data['limit'];
 
-        $results = $this->db->select('wines AS w', 'w.*', 'INNER JOIN wineries AS win ON w.winery_id = win.winery_id', array('win.winery_name' => $winery_name), '', $limit);
+        $results = $this->db->select('wines AS w', 'w.*', 'INNER JOIN wineries AS win ON w.winery_id = win.winery_id', array('win.winery_name' => $winery_name), '', $limit, fuzzy: true);
         if (gettype($results) === 'string')
             $this->return_data('500', $results, 'error');
 
@@ -517,6 +539,24 @@ class API
                 $this->return_data('500', $result, 'error');
         }
         $this->return_data('200', 'Images successfully added', 'success');
+    }
+
+    private function user_review($data)
+    {
+        $this->check_set('api_key', 'API key must be set', $data);
+        $this->check_set('wine_id', 'Wine ID key must be set', $data);
+        $this->check_set('rating', 'Rating must be set', $data);
+
+        $api_key = $data['api_key'];
+        $wine_id = $data['wine_id'];
+        $rating = $data['rating'];
+
+        $result = $this->db->insert('reviews', array('api_key' => $api_key, 'wine_id' => $wine_id, 'rating' => $rating));
+
+        if (gettype($result) === 'string')
+            $this->return_data('500', $result, 'error');
+
+        $this->return_data('200', 'Rating Successfully made', 'success');
     }
 }
 

@@ -110,47 +110,14 @@ class Database
             $query .= " " . implode(' ', $joins);
         }
 
-        if (!empty($conditions))
-        {
-            $whereConditions = array();
-            foreach ($conditions as $column => $value)
-            {
-                $escaped_value = mysqli_real_escape_string($this->connection, $value);
-                $whereConditions[] = "$column LIKE '%$escaped_value%'";
-                
-            }
-            $query .= " WHERE " . implode(' AND ', $whereConditions);
-        }
-        //echo $query;
-        if (!empty($order))
-        {
-            $query .= " ORDER BY " . $order;
+
+        $condition = empty($gt_lt) ? 'AND' : $gt_lt;
+        $wildcard = '';
+        if ($fuzzy){
+            $condition = 'LIKE';
+            $wildcard = '%';
         }
 
-        if (!empty($limit))
-        {
-            $query .= " LIMIT " . $limit;
-        }
-
-        return $this->executeQuery($query);
-        //return $query;
-    }
-
-    public function select_gt_lt($tables, $columns, $joins = array(), $conditions = array(), $order = '', $limit = '', $gt_lt)
-    {
-        if (!is_array($columns))
-            $columns = array($columns);
-        if (!is_array($tables))
-            $tables = array($tables);
-        if (!is_array($joins))
-            $joins = array($joins);
-        $query = "SELECT " . implode(', ', $columns);
-        $query .= " FROM " . implode(', ', $tables);
-
-        if (!empty($joins))
-        {
-            $query .= " " . implode(' ', $joins);
-        }
 
         if (!empty($conditions))
         {
@@ -158,9 +125,9 @@ class Database
             foreach ($conditions as $column => $value)
             {
                 $escaped_value = mysqli_real_escape_string($this->connection, $value);
-                $whereConditions[] = "$column $gt_lt $escaped_value";
+                $whereConditions[] = "$column $condition '$wildcard$escaped_value$wildcard'";
             }
-            $query .= " WHERE " . implode(' AND ', $whereConditions);
+            $query .= " WHERE " . implode(" $or_and ", $whereConditions);
         }
 
         if (!empty($order))
