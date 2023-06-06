@@ -142,7 +142,7 @@ class API
 
         $id = $data['details']['ID'];
         $table = $data['options']['table'];
-        $operation = $data['options']['table'];
+        $operation = $data['options']['operation'];
 
         $column_name = '';
         switch ($table)

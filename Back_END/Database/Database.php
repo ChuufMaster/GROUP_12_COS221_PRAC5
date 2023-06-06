@@ -121,6 +121,12 @@ class Database
             $conditions = array($conditions);
         }
 
+        $wheres = array();
+
+        foreach($conditions as $where => $value){
+            array_push($wheres, "$where = '$value'");
+        }
+
         $set = '';
         foreach ($columns as $column => $value)
         {
@@ -129,10 +135,12 @@ class Database
         $set = rtrim($set, ', ');
 
         $conditions = implode(' AND ', $conditions);
+        $wheres = implode(' AND ', $wheres);
 
-        $query = "UPDATE $table SET $set WHERE $conditions";
+        $query = "UPDATE $table SET $set WHERE $wheres";
 
         return $this->executeQuery($query);
+        //return $query;
     }
 
     // Perform a DELETE query
