@@ -187,4 +187,11 @@ function make_request(request_body, call_back) {
   };
 }
 
+var isLoggedIn = localStorage.getItem('api_key');
+  if (isManager == 1) {
+    // If the user is a manager, add content to the navbar
+    var signInOut = document.getElementById('signInOut');
+    signInOut.innerText = "Sign Out";
+  }
+
 $(".filter").on("input", handleFilterChange);
