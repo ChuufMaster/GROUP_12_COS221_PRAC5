@@ -87,9 +87,7 @@ class API
 
     public function getType($data)
     {
-        if (!isset($data['type']))
-            $this->return_data('400', 'Type is expected', 'error');
-
+        $this->check_set('type', 'Type must be set', $data);
         $type = $data['type'];
 
         switch ($type)
@@ -120,6 +118,9 @@ class API
                 break;
             case 'add_images':
                 $this->add_images($data);
+                break;
+            case 'user_review':
+                $this->user_review($data);
                 break;
             default:
                 $this->return_data('400', 'Type is expected or is incorrect', 'error');
@@ -240,7 +241,7 @@ class API
 
     private function CRUD($data)
     {
-        return;
+        $this->manage($data);
     }
 
     private function suggest($data)
@@ -532,6 +533,24 @@ class API
                 $this->return_data('500', $result, 'error');
         }
         $this->return_data('200', 'Images successfully added', 'success');
+    }
+
+    private function user_review($data)
+    {
+        $this->check_set('api_key', 'API key must be set', $data);
+        $this->check_set('wine_id', 'Wine ID key must be set', $data);
+        $this->check_set('rating', 'Rating must be set', $data);
+
+        $api_key = $data['api_key'];
+        $wine_id = $data['wine_id'];
+        $rating = $data['rating'];
+
+        $result = $this->db->insert('reviews', array('api_key' => $api_key, 'wine_id' => $wine_id, 'rating' => $rating));
+
+        if (gettype($result) === 'string')
+            $this->return_data('500', $result, 'error');
+
+        $this->return_data('200', 'Rating Successfully made', 'success');
     }
 }
 
