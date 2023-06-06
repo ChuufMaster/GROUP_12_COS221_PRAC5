@@ -46,6 +46,7 @@ document.getElementById('signUpBtn').addEventListener('click', function(event) {
     if(data.message === "Signup successful!")
     {
       localStorage.setItem('api_key',data.api_key);
+      localStorage.setItem('isManager',data.is_manager);
       window.location.href = '../HTML/wines.html';
     }else {
       alert(data.message);

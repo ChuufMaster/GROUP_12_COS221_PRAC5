@@ -2,6 +2,7 @@
 
 :root {
     --primary: #9B0000;
+    --darkred: #450000;
     --dark: #2f2122;
     --body: #888;
     --box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
@@ -46,6 +47,8 @@ a :active {
     padding: 14px 18px;
     border-width: 2px;
     border-radius: 0;
+    --bs-btn-active-bg: var(--darkred);
+    --bs-btn-active-border-color: var(--darkred);
 }
 
 .btn-primary {
