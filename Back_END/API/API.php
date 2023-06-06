@@ -63,7 +63,7 @@ class API
     {
 
         if (!isset($data[$to_check]) || empty($to_check))
-            false;
+            return false;
 
     }
 
