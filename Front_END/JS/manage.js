@@ -8,7 +8,10 @@ function populate_wines(data) {
   // Generate table rows
   $.each(data.data, function (index, item) {
     table += '<tr class="table-row">';
-    table += '<td data-column-name="wine_id" class="wine_id">' + item.wine_id + "</td>";
+    table +=
+      '<td data-column-name="wine_id" class="wine_id">' +
+      item.wine_id +
+      "</td>";
     table += '<td data-column-name="type">' + item.type + "</td>";
     table += '<td data-column-name="grape_type">' + item.grape_type + "</td>";
     table += '<td data-column-name="image">';
@@ -112,7 +115,7 @@ function handleUpdateButtonClick(button) {
       var columnName = $(column).data("column-name");
       if (columnName !== "image" && columnName !== "btn-type") {
         var inputValue = $(column).text().trim();
-        
+
         if (columnName === "description") {
           $(column).html(
             '<textarea class="form-control">' + inputValue + "</textarea>"
@@ -188,11 +191,12 @@ function make_request(request_body, call_back) {
   };
 }
 
-var isLoggedIn = localStorage.getItem('api_key');
-  if (isManager == 1) {
-    // If the user is a manager, add content to the navbar
-    var signInOut = document.getElementById('signInOut');
-    signInOut.innerText = "Sign Out";
-  }
+var isLoggedIn = localStorage.getItem("api_key");
+var isManager = localStorage.getItem("isManager");
+if (isManager == 1) {
+  // If the user is a manager, add content to the navbar
+  var signInOut = document.getElementById("signInOut");
+  signInOut.innerText = "Sign Out";
+}
 
 $(".filter").on("input", handleFilterChange);

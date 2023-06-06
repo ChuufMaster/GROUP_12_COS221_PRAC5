@@ -30,7 +30,6 @@ document.getElementById('signUpBtn').addEventListener('click', function(event) {
   var xhr = new XMLHttpRequest();
   var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
   xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-Type", "application/json");
   const request_body = {
     "type": "login_signup",
     "login_signup_type": "signup",
