@@ -67,7 +67,7 @@ class Database
         }
 
 
-        $condition = empty($gt_lt) ? 'AND' : $gt_lt;
+        $condition = empty($gt_lt) ? '=' : $gt_lt;
         $wildcard = '';
         if ($fuzzy)
         {
