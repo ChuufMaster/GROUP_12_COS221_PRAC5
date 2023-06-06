@@ -29,7 +29,7 @@
       Eco-friendly: ${winery.eco_friendly ? 'Yes' : 'No'}<br>
       Operational: ${winery.operational ? 'Yes' : 'No'}<br>
       Offers Tours: ${winery.offers_tours ? 'Yes' : 'No'}<br>
-      Owner: ${winery.api_key}
+      Owner: ${winery.first_name} ${winery.last_name}
     `;
 
     const btnGroup = document.createElement('div');
@@ -37,12 +37,11 @@
 
     const btn = document.createElement('button');
     btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
-    btn.textContent = 'View More Details';
+    btn.textContent = 'View Their Wines';
 
     // Add event listener to the button
     btn.addEventListener('click', () => {
-      // Perform actions when the button is clicked
-      // ...
+        fetchFromWinery(winery.winery_id);
     });
 
     // Append elements to build the card
@@ -62,17 +61,19 @@
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     const request_body = {
-        "type": "get_random",
-        "table": "wineries.*, all_users.name, all_users.surname",
-        "details": "*",
+        "type": "get_by_conditions",
+        "table": "wineries",
+        "details": "wineries.*, all_users.first_name, all_users.last_name",
         "limit": 30,
-        "joins": "JOIN all_users ON wineries.api_key = all_users.api_key"
+        "joins": "JOIN all_users ON wineries.api_key = all_users.api_key",
+        "conditions": "*",
+        "options": "*"
     };
     var json_request_body = JSON.stringify(request_body);
     xhr.send(json_request_body);
     xhr.onload = function() {
       var data = JSON.parse(xhr.responseText).data;
-      console.log(data[0]);
+      
       deleteWineryCards();
       data.forEach(winery => {
       createWineryCard(winery);

@@ -71,7 +71,12 @@ class Database
             foreach ($conditions as $column => $value)
             {
                 $escaped_value = mysqli_real_escape_string($this->connection, $value);
-                $whereConditions[] = "$column = '$escaped_value'";
+                if($escaped_value === "IS NOT NULL")
+                {
+                    $whereConditions[] = "$column $escaped_value";
+                }else{
+                    $whereConditions[] = "$column = '$escaped_value'";
+                }
             }
             $query .= " WHERE " . implode(' AND ', $whereConditions);
         }
@@ -85,7 +90,6 @@ class Database
         {
             $query .= " LIMIT " . $limit;
         }
-
         return $this->executeQuery($query);
         //return $query;
     }

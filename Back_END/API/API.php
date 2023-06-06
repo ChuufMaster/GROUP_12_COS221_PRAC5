@@ -355,6 +355,12 @@ class API
                 'api_key' => $row['api_key']
             );
             $this->return_data('200', $return, "Success");
+        }else{
+            $return = array(
+                'message' => "Incorrect Email or Password."
+            );
+            
+            $this->return_data('400',$return,"error");
         }
     }
 
@@ -425,8 +431,8 @@ class API
         $results = 'If you are seeing this message then there is a problem with fuzzy or gt_lt';
 
         $joins = '';
-
-        if ($this->check_set_optional('join', $data))
+        
+        if ($this->check_set_optional('joins', $data))
         {
             $joins = $data['joins'];
         }

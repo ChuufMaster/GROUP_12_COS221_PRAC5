@@ -117,6 +117,8 @@ a :active {
     max-width: 60px;
     object-fit: cover;
     margin: 20px;
+    min-height: 210px;
+    min-width: 60px;
 }
 
 .card-body {
