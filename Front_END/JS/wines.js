@@ -117,8 +117,8 @@
     // Replace the following lines with the code to fetch the wine data from the database
     const wineType = wine.type;
     const wineUserRating = (Math.random() * 6).toFixed(1);
-    const wineQuality = Math.floor(Math.random() * (101 - 50) + 50);
-    const wineAlcoholPercentage = (Math.random() * (15 - 10) + 10).toFixed(1);
+    const wineQuality = wine.quality;
+    const wineAlcoholPercentage = wine.alcohol;
     const wineGrapeType = wine.grape_type;
     const wineRatingPercentile = (Math.random() * 100).toFixed(0);
     const winePricePercentile = (Math.random() * 100).toFixed(0);
@@ -150,6 +150,20 @@
     // Call the fetchData function with the selected sort criteria
     fetchData(selectedSortCriteria);
   });
+
+  var isManager = localStorage.getItem('isManager');
+  if (isManager == 1) {
+    // If the user is a manager, add content to the navbar
+    var managerNav = document.getElementById('managerNav');
+    managerNav.innerHTML = '<a class="nav-link" href="manage.html">Manage</a>';
+  }
+
+  var isLoggedIn = localStorage.getItem('api_key');
+  if (isManager == 1) {
+    // If the user is a manager, add content to the navbar
+    var signInOut = document.getElementById('signInOut');
+    signInOut.innerText = "Sign Out";
+  }
 
   // Call the fetchData function to load data and create wine cards initially
   fetchData('');

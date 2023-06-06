@@ -30,7 +30,7 @@ class API
         $this->host = "wheatley.cs.up.ac.za";
         $this->username = "u21543152";
         $this->password = "YOEBF7WB6KVLTICOAB2W7YFBZN3LTDDV";
-        $this->database_name = "u21543152_PA5";
+        $this->database_name = "u21543152_PA5(2)";
         $this->db = Database::instance($this->host, $this->username, $this->password, $this->database_name);
     }
 
@@ -354,7 +354,8 @@ class API
         $this->db->insert('all_users', $signup_info);
         $send = array(
             'message' => "Signup successful!",
-            'api-key' => $api_key
+            'api-key' => $api_key,
+            'is_manager' => 0
         );
         $this->return_data('200', $send, "success");
     }
@@ -388,7 +389,8 @@ class API
         {
             $return = array(
                 'message' => "Login Successful!",
-                'api_key' => $row['api_key']
+                'api_key' => $row['api_key'],
+                'is_manager' => $row['is_manager']
             );
             $this->return_data('200', $return, "Success");
         }
