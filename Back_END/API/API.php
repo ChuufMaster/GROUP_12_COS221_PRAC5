@@ -36,6 +36,7 @@ class API
 
     private function return_data($header, $data, $status)
     {
+        
         header($this->status_codes[$header]);
         header('content-Type:application/json');
         $response = array("status" => $status,
@@ -390,12 +391,14 @@ class API
                 'api_key' => $row['api_key']
             );
             $this->return_data('200', $return, "Success");
-        }else{
+        }
+        else
+        {
             $return = array(
                 'message' => "Incorrect Email or Password."
             );
-            
-            $this->return_data('400',$return,"error");
+
+            $this->return_data('400', $return, "error");
         }
     }
 
@@ -466,7 +469,7 @@ class API
         $results = 'If you are seeing this message then there is a problem with fuzzy or gt_lt';
 
         $joins = '';
-        
+
         if ($this->check_set_optional('joins', $data))
         {
             $joins = $data['joins'];
@@ -562,23 +565,28 @@ class API
         $this->return_data('200', 'Rating Successfully made', 'success');
     }
 
-    private function check_manager($data){
+    private function check_manager($data)
+    {
         $this->check_set('api_key', 'API key must be set', $data);
 
         $api_key = $data['api_key'];
 
-        $result = $this->db->select(tables: 'all_users',conditions: array('api_key' => $api_key), );
+        $result = $this->db->select(tables: 'all_users', conditions: array('api_key' => $api_key), );
 
-        if(gettype($result) === 'string'){
+        if (gettype($result) === 'string')
+        {
             $this->return_data('500', $result, 'error');
         }
 
-        if($result->num_rows <= 0){
+        if ($result->num_rows <= 0)
+        {
             $this->return_data('200', false, 'success');
         }
 
-        while($row = mysqli_fetch_assoc($result)){
-            if($row['is_manager'] === 1){
+        while ($row = mysqli_fetch_assoc($result))
+        {
+            if ($row['is_manager'] === 1)
+            {
                 $this->return_data('200', true, 'Success');
             }
         }
