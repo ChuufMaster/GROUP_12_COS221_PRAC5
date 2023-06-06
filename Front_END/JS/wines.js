@@ -70,9 +70,10 @@
       "table": "wines",
       "limit": 30,
       "details": "*",
-      "conditions": {
-        "image": "IS NOT NULL"
-      },
+      // "conditions": {
+      //   "image": "IS NOT NULL"
+      // },
+      "conditions": "*",
       "options": "*"
     };
     
@@ -83,7 +84,10 @@
   
       deleteWineCards();
       data.forEach(wine => {
-        createWineCard(wine);
+        if(wine.image != null)
+        {
+          createWineCard(wine);
+        }
       });
     }
   }
@@ -99,7 +103,7 @@
       "limit": 30,
       "details": "*",
       "conditions": {
-        "image": "IS NOT NULL",
+        // "image": "IS NOT NULL",
         "winery_id": winery_id
       },
       "options": "*"
@@ -112,7 +116,10 @@
   
       deleteWineCards();
       data.forEach(wine => {
-        createWineCard(wine);
+        if(wine.image != null)
+        {
+          createWineCard(wine);
+        }
       });
     }
   }
