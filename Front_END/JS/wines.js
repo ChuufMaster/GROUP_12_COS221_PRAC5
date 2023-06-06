@@ -41,7 +41,7 @@
     
         const price = document.createElement('small');
         price.classList.add('text-muted');
-        price.textContent = 'Price: ' + wine.price;
+        price.textContent = 'Price: $' + wine.price;
     
         // Append elements to build the card
         cardBody.appendChild(image);
