@@ -1,0 +1,8 @@
+MAKE SURE THE NAMES AND FILE TYPES MATCH:
+
+Members.txt
+README.txt
+COS221 Practical 5 Group 12.pdf
+Back_END (this is a folder)
+Front_END (this is a folder)
+.git (this is a folder you have to turn on hidden items)
