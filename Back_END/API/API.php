@@ -263,15 +263,15 @@ class API
             $send = array(
                 'message' => "Email and password are required."
             ); 
-            return $send;
+            $this->return_data('400',$send,"error");
         }
         // Check if the user already exists
-        if ($this->db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows > 0)
+        if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
             $send = array(
                 'message' => "Email and password are required."
             ); 
-            return $send;
+            $this->return_data('400',$send,"error");
         }
         // Generate a random salt
         $salt = bin2hex(random_bytes(16));
@@ -291,7 +291,7 @@ class API
             'message' => "Signup successful!",
             'api-key' => $api_key
         ); 
-        return $send;
+        $this->return_data('200',$send,"success");
     }
 
     private function handleLoginRequest($request_body)
@@ -303,18 +303,18 @@ class API
             $return = array(
                 'message' => "Email and password are required."
             );
-            return $return;
+            $this->return_data('400',$return,"error");
         }
         // Check if the user already exists
-        if ($this->db->select(array('users'), array('*'), array(), array('email' => $email))->num_rows === 0)
+        if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows === 0)
         {
             $return = array(
                 'message' => "There is no account associated with that Email. Please try again."
             );
-            return $return;
+            $this->return_data('400',$return,"error");
         }
 
-        $result = $this->db->select(array('users'), array('*'), array(), array('email' => $email));
+        $result = $this->db->select(array('all_users'), array('*'), array(), array('email' => $email));
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
         $salted_password = $row['salt'] . $password;
@@ -324,7 +324,7 @@ class API
                 'message' => "Login Successful!",
                 'api_key' => $row['api_key']
             );
-            return $return;
+            $this->return_data('200',$return,"Success");
         }
     }
 
