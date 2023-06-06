@@ -68,3 +68,17 @@ document.getElementById('suggestButton').addEventListener('click', function() {
       suggestionResult.appendChild(wineryCard);
     });
   }
+
+  var isManager = localStorage.getItem('isManager');
+    if (isManager == 1) {
+      // If the user is a manager, add content to the navbar
+      var managerNav = document.getElementById('managerNav');
+      managerNav.innerHTML = '<a class="nav-link" href="manage.html">Manage</a>';
+    }
+
+    var isLoggedIn = localStorage.getItem('api_key');
+    if (isManager == 1) {
+      // If the user is a manager, add content to the navbar
+      var signInOut = document.getElementById('signInOut');
+      signInOut.innerText = "Sign Out";
+    }
