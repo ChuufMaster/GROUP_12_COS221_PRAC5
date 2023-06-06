@@ -5,7 +5,8 @@
       "options": {
         "order": "ASC",
         "sort_type": "quality"
-      }
+      },
+      "limit": 5
     },
 
     "manage_wines": [
