@@ -37,6 +37,7 @@ document.getElementById('signInBtn').addEventListener('click', function(event) {
     console.log(data.message);
     if (data.message === "Login Successful!") {
       localStorage.setItem('api_key', data.api_key);
+      localStorage.setItem('isManager',data.is_manager);
       window.location.href = '../HTML/wines.html';
     } else {
       alert(data.message);

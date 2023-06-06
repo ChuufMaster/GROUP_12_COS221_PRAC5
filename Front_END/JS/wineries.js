@@ -64,7 +64,7 @@
         "type": "get_by_conditions",
         "table": "wineries",
         "details": "wineries.*, all_users.first_name, all_users.last_name",
-        "limit": 30,
+        "limit": 60,
         "joins": "JOIN all_users ON wineries.api_key = all_users.api_key",
         "conditions": "*",
         "options": "*"
@@ -83,4 +83,11 @@
 
   // Call the fetchData function to load data and create winery cards initially
   fetchData();
+  var isManager = localStorage.getItem('isManager');
+
+  if (isManager === '1') {
+    // If the user is a manager, add content to the navbar
+    var managerNav = document.getElementById('managerNav');
+    managerNav.innerHTML = '<a class="nav-link" href="manage.html">Manage</a>';
+  }
 
