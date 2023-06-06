@@ -1,5 +1,57 @@
 $(document).ready(function () {
   var data = fetch_wines();
+
+  $("#apiForm").submit(function(event) {
+    event.preventDefault();
+
+    // Retrieve form data
+    var imageUrl = $("#imageUrl").val();
+    var wineType = $("#wineType").val();
+    var price = $("#price").val();
+    var userRating = $("#userRating").val();
+    var quality = $("#quality").val();
+    var alcohol = $("#alcohol").val();
+    var grapeType = $("#grapeType").val();
+    var description = $("#description").val();
+
+    // Prepare request payload
+    var payload = {
+      "type": "manage",
+      "options": {
+        "operation": "INSERT",
+        "table": "wines"
+      },
+      "details": {
+        "table": "wines",
+        "ID": "Just put whatever here; it will be overwritten",
+        "data": {
+          "image": imageUrl,
+          "type": wineType,
+          "price": price,
+          "user_rating": userRating,
+          "quality": quality,
+          "alcohol": alcohol,
+          "grape_type": grapeType,
+          "description": description
+        }
+      }
+    };
+
+    // Send API request
+    $.ajax({
+      url: "<API_ENDPOINT>",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(payload),
+      success: function(response) {
+        alert("API request successful!");
+      },
+      error: function(xhr, status, error) {
+        console.log("API request error:", error);
+        alert("An error occurred while making the API request.");
+      }
+    });
+  });
 });
 
 function populate_wines(data) {
