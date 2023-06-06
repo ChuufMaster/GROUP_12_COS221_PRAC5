@@ -23,7 +23,7 @@
       width: 200px;
       margin-right: 10px;
     }
-    
+
     .modal-header .close {
       outline: none;
       border: none;
@@ -76,8 +76,8 @@
           <select class="form-control d-inline-block" id="sortCriteriaDropdown">
             <option value="quality">Quality</option>
             <option value="price">Price</option>
-            <option value="wineColour">Wine Colour</option>
-            <option value="grapeType">Grape Type</option>
+            <option value="alcohol">Alcohol %</option>
+            <option value="grape_type">Grape Type</option>
           </select>
           <button class="btn btn-primary ml-2 custom-button" id="sortButton">Sort</button>
         </div>
@@ -249,10 +249,6 @@
                 <td id="wineType"></td>
               </tr>
               <tr>
-                <th>User Rating:</th>
-                <td id="wineUserRating"></td>
-              </tr>
-              <tr>
                 <th>Quality:</th>
                 <td id="wineQuality"></td>
               </tr>
@@ -263,14 +259,6 @@
               <tr>
                 <th>Grape Type:</th>
                 <td id="wineGrapeType"></td>
-              </tr>
-              <tr>
-                <th>Rating Percentile:</th>
-                <td id="wineRatingPercentile"></td>
-              </tr>
-              <tr>
-                <th>Price Percentile:</th>
-                <td id="winePricePercentile"></td>
               </tr>
             </tbody>
           </table>

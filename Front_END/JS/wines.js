@@ -95,10 +95,9 @@
     }
     localStorage.removeItem('winery_id');
     var json_request_body = JSON.stringify(request_body);
-    console.log(JSON.toString(request_body,null,true));
+    console.log(request_body);
     xhr.send(json_request_body);
     xhr.onload = function() {
-      console.log(JSON.toString(xhr.responseText));
       var data = JSON.parse(xhr.responseText).data;
   
       deleteWineCards();
@@ -110,39 +109,6 @@
       });
     }
   }
-  
-  // export function fetchFromWinery(winery_id) {
-    
-  //   var xhr = new XMLHttpRequest();
-  //   var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
-  //   xhr.open("POST", url, true);
-  //   xhr.setRequestHeader("Content-Type", "application/json");
-  //   const request_body = {
-  //     "type": "get_by_conditions",
-  //     "table": "wines",
-  //     "limit": 30,
-  //     "details": "*",
-  //     "conditions": {
-  //       // "image": "IS NOT NULL",
-  //       "winery_id": winery_id
-  //     },
-  //     "options": "*"
-  //   };
-
-  //   var json_request_body = JSON.stringify(request_body);
-  //   xhr.send(json_request_body);
-  //   xhr.onload = function() {
-  //     var data = JSON.parse(xhr.responseText).data;
-  
-  //     deleteWineCards();
-  //     data.forEach(wine => {
-  //       if(wine.image != null)
-  //       {
-  //         createWineCard(wine);
-  //       }
-  //     });
-  //   }
-  // }
 
   function openWineModal(wine) {
     const wineName = wine.designation + " " + wine.type;
@@ -162,12 +128,9 @@
   
     // Update the table data with the fetched wine data
     $('#wineType').text(wineType);
-    $('#wineUserRating').text(wineUserRating);
     $('#wineQuality').text(wineQuality);
     $('#alcoholPercentage').text(wineAlcoholPercentage);
     $('#wineGrapeType').text(wineGrapeType);
-    $('#wineRatingPercentile').text(wineRatingPercentile);
-    $('#winePricePercentile').text(winePricePercentile);
   
     $('#wineModal').modal('show');
 
