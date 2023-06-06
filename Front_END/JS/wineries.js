@@ -1,27 +1,27 @@
 
   // Function to delete all existing winery cards
   function deleteWineryCards() {
-    const wineryContainer = document.querySelector('.container');
+    const wineryContainer = document.querySelector('.row');
     wineryContainer.innerHTML = '';
   }
 
   // Function to create a new winery card
   function createWineryCard(winery) {
-    const wineryContainer = document.querySelector('.container');
+    const wineryContainer = document.querySelector('.row');
 
     // Create elements for the winery card
     const col = document.createElement('div');
     col.classList.add('col-md-4');
 
     const card = document.createElement('div');
-    card.classList.add('card', 'mb-4', 'box-shadow');
+    card.classList.add('card','mb-4','box-shadow');
 
     const cardBody = document.createElement('div');
-    cardBody.classList.add('card-body', 'text-center', 'align-items-center');
+    cardBody.classList.add('card-body','text-center','align-items-center');
 
     const title = document.createElement('h5');
     title.classList.add('card-title');
-    title.textContent = winery.name;
+    title.textContent = winery.winery_name;
 
     const text = document.createElement('p');
     text.classList.add('card-text');
@@ -29,7 +29,7 @@
       Eco-friendly: ${winery.eco_friendly ? 'Yes' : 'No'}<br>
       Operational: ${winery.operational ? 'Yes' : 'No'}<br>
       Offers Tours: ${winery.offers_tours ? 'Yes' : 'No'}<br>
-      Owner: ${winery.owner}
+      Owner: ${winery.api_key}
     `;
 
     const btnGroup = document.createElement('div');
@@ -58,22 +58,26 @@
   // Fetch data from the API
   function fetchData() {
     var xhr = new XMLHttpRequest();
-    var url = "localhost/GROUP_7_COS221_PRAC5/Back_END/API/API.php";
+    var url = "http://localhost/GROUP_12_COS221_PRAC5/Back_END/API/API.php";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     const request_body = {
         "type": "get_random",
-        "table": "wineries",
+        "table": "wineries.*, all_users.name, all_users.surname",
         "details": "*",
-        "limit": 30
+        "limit": 30,
+        "joins": "JOIN all_users ON wineries.api_key = all_users.api_key"
     };
     var json_request_body = JSON.stringify(request_body);
     xhr.send(json_request_body);
-    var data = JSON.parse(xhr.responseText).data;
-    deleteWineryCards();
-    data.forEach(winery => {
-        createWineryCard(winery);
+    xhr.onload = function() {
+      var data = JSON.parse(xhr.responseText).data;
+      console.log(data[0]);
+      deleteWineryCards();
+      data.forEach(winery => {
+      createWineryCard(winery);
     });
+    }
   }
 
   // Call the fetchData function to load data and create winery cards initially

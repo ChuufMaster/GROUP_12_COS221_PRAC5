@@ -271,12 +271,12 @@ class API
         if ($this->db->select(array('all_users'), array('*'), array(), array('email' => $email))->num_rows > 0)
         {
             $send = array(
-                'message' => "Email and password are required."
+                'message' => "An account already exists with that Email."
             ); 
             $this->return_data('400',$send,"error");
         }
         // Generate a random salt
-        $salt = bin2hex(random_bytes(16));
+        $salt = bin2hex(random_bytes(6));
 
         // Combine the salt with the password
         $salted_password = $salt . $password;
@@ -284,7 +284,7 @@ class API
         // Hash the salted password
         $hashed_password = password_hash($salted_password, PASSWORD_DEFAULT);
 
-        $api_key = bin2hex(random_bytes(32));
+        $api_key = bin2hex(random_bytes(16));
 
         $signup_info = array('email' => $email, 'password' => $hashed_password, 'first_name' => $first_name, 'last_name' => $last_name, 'salt' => $salt, 'api_key' => $api_key);
 
@@ -298,6 +298,7 @@ class API
 
     private function handleLoginRequest($request_body)
     {
+        
         $email = $request_body['email'];
         $password = $request_body['password'];
         if (empty($email) || empty($password))
@@ -305,6 +306,7 @@ class API
             $return = array(
                 'message' => "Email and password are required."
             );
+            
             $this->return_data('400',$return,"error");
         }
         // Check if the user already exists
@@ -315,7 +317,6 @@ class API
             );
             $this->return_data('400',$return,"error");
         }
-
         $result = $this->db->select(array('all_users'), array('*'), array(), array('email' => $email));
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
